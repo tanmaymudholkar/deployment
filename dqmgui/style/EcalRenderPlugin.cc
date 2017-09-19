@@ -1166,7 +1166,8 @@ EcalRenderPlugin::preDrawByName(TCanvas* canvas, VisDQMObject const& dqmObject, 
      !fullpath.Contains("Status Flags") &&
      !fullpath.Contains("Masking Status") &&
      !fullpath.Contains("Real vs Emulated") &&
-     !fullpath.Contains("energy Side")) return;
+     !fullpath.Contains("energy Side") &&
+     !fullpath.Contains("blue laser quality trend")) return;
 
   TH1* obj(static_cast<TH1*>(dqmObject.object));
 
@@ -1314,6 +1315,11 @@ EcalRenderPlugin::preDrawByName(TCanvas* canvas, VisDQMObject const& dqmObject, 
     if( fullpath.Contains(" G12 ") )     obj->GetZaxis()->SetRangeUser( 0.,10.  );
     else if( fullpath.Contains(" G6 ") ) obj->GetZaxis()->SetRangeUser( 0.,80.  );
     else if( fullpath.Contains(" G1 ") ) obj->GetZaxis()->SetRangeUser( 0.,160. );
+  }
+
+  if (TPRegexp("Ecal/Trends/LaserClient blue laser quality trend").MatchB(fullpath)) {
+    obj->GetXaxis()->SetNdivisions(1010, true);
+    obj->GetYaxis()->SetNdivisions(27, true);
   }
 
 }
